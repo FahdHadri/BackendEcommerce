@@ -7,7 +7,7 @@ const Article = require("../models/article");
 // afficher la liste des categories.
 router.get("/", async (req, res) => {
     try {
-        const art = await Article.find({}, null, { sort: { _id: -1 } });
+        const art = await Article.find({}, null, { sort: { _id: -1 } }).populate("scategorieID").exec();
         res.status(200).json(art);
       } catch (error) {
         res.status(404).json({ message: error.message });
@@ -17,24 +17,16 @@ router.get("/", async (req, res) => {
 
 // créer un nouveau article
 router.post("/", async (req, res) => {
-    const { reference, designation,prix,marque,qtestock,imageart,scategorieID } = req.body;
-    const newArticle = new Article({
-        reference:reference,
-        designation:designation,
-        prix:prix,
-        marque: marque,
-        qtestock:qtestock,
-        imageart:imageart,
-        scategorieID :scategorieID
-    });
-    try {
-      await newArticle.save();
-      res.status(200).json(newArticle);
-    } catch (error) {
-      res.status(404).json({ message: error.message });
-    }
-});
+  const nouvarticle = new Article(req.body)
 
+  try {
+      await nouvarticle.save();
+
+      res.status(200).json(nouvarticle );
+  } catch (error) {
+      res.status(404).json({ message: error.message });
+  }
+})
 // chercher une article
 router.get("/:articleId", async (req, res) => {
     try { 
@@ -46,23 +38,24 @@ router.get("/:articleId", async (req, res) => {
 });
 
 // modifier un article
-router.put("/:articleId", async (req, res) => {
-    try {
-        const art = await article.findByIdAndUpdate(
-          req.params.articleId,
-          { $set: req.body },
-          { new: true }
-        );
-        res.status(200).json(art);
-      } catch (error) {
-        res.status(404).json({ message: error.message });
-      }
+router.put('/:articleId', async (req, res)=> {
+  try {
+   const art = await Article.findByIdAndUpdate(
+       req.params.articleId,
+       { $set: req.body },
+     { new: true }
+   );
+   res.status(200).json(art);
+   } catch (error) {
+   res.status(404).json({ message: error.message });
+   }
 });
-
 // Supprimer un article
-router.delete("/:articleId", async (req, res) => {
-    
-  const cat = await Article.findByIdAndDelete(req.params.articleId);
-  res.json({ message: "categorie deleted successfully." });
+router.delete('/:articleId', async (req, res)=> {
+  const  id  = req.params.articleId;
+  await Article.findByIdAndDelete(id);
+
+  res.json({ message: "article deleted successfully." });
+
 });
 module.exports = router;
