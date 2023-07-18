@@ -62,7 +62,7 @@ router.put("/:articleId", async (req, res) => {
 // Supprimer un article
 router.delete("/:articleId", async (req, res) => {
     
-  const cat = await article.findByIdAndDelete(req.params.articleId);
+  const cat = await Article.findByIdAndDelete(req.params.articleId);
   res.json({ message: "categorie deleted successfully." });
 });
 module.exports = router;
