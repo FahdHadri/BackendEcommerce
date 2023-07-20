@@ -4,9 +4,10 @@ const SCategorie = require("../models/scategorie");
 // afficher la liste des categories.
 router.get("/", async (req, res) => {
   try {
-    const scat = await SCategorie.find({}, null, {
-      sort: { _id: -1 },
-    }).populate("categorieID");
+    const scat = await SCategorie.find({}, null, { sort: { _id: -1 } })
+      .populate("categorieID")
+      .exec();
+
     res.status(200).json(scat);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -14,14 +15,11 @@ router.get("/", async (req, res) => {
 });
 // créer un nouvelle catégorie
 router.post("/", async (req, res) => {
-  const { nomscategorie, imagescat, categorieID } = req.body;
-  const newSCategorie = new SCategorie({
-    nomscategorie: nomscategorie,
-    imagescat: imagescat,
-    categorieID: categorieID,
-  });
+  const nouvscateg = new Article(req.body);
+
   try {
-    await newSCategorie.save();
+    await nouvscateg.save();
+
     res.status(200).json(newSCategorie);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -41,12 +39,12 @@ router.get("/:scategorieId", async (req, res) => {
 // modifier une catégorie
 router.put("/:scategorieId", async (req, res) => {
   try {
-    const scat1 = await SCategorie.findByIdAndUpdate(
+    const scat= await SCategorie.findByIdAndUpdate(
       req.params.scategorieId,
       { $set: req.body },
       { new: true }
     );
-    res.status(200).json(scat1);
+    res.status(200).json(scat);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -70,4 +68,4 @@ router.get("/cat/:categorieID", async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 });
-module.exports=router;
+module.exports = router;
