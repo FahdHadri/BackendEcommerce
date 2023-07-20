@@ -11,7 +11,7 @@ const cors = require('cors');
 
 //BodyParser Middleware
 app.use(express.json());
-app.use(cors(({origin: true})));
+app.use(cors());
 mongoose.set("strictQuery", false);
 // Connexion à la base données
 mongoose.connect(process.env.DATABASECLOUD,{
