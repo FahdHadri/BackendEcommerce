@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const SCategorie = require("../models/scategorie");
+const scategorie = require("../models/scategorie");
 // afficher la liste des categories.
 router.get("/", async (req, res) => {
   try {
@@ -15,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 // créer un nouvelle catégorie
 router.post("/", async (req, res) => {
-  const nouvscateg = new Article(req.body);
+  const nouvscateg = new scategorie(req.body);
 
   try {
     await nouvscateg.save();
