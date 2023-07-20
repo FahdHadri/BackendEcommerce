@@ -6,12 +6,12 @@ const app = express();
 const categorieRouter = require ("./routes/categorie.route")
 const scategorieRouter = require ("./routes/scategorie.route")
 const articleRouter = require ("./routes/article.route")
-const cors=require('cors')
+const cors = require('cors');
 
 
 //BodyParser Middleware
 app.use(express.json());
-app.use(cors())
+app.use(cors(({origin: true})));
 mongoose.set("strictQuery", false);
 // Connexion à la base données
 mongoose.connect(process.env.DATABASECLOUD,{
@@ -33,11 +33,6 @@ app.listen(process.env.PORT, () => {
 console.log(`Server is listening on port ${process.env.PORT}`); });
 
 
-exports.test = functions.https.onRequest((request, response) => {
-    cors(request, response, () => {
-      response.status(500).send({test: 'Testing functions'});
-    })
- })
 
 module.exports = app;
 
