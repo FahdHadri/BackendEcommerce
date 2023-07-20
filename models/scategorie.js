@@ -6,4 +6,4 @@ imagescat :{ type: String, required: false },
 categorieID: {type:mongoose.Schema.Types.ObjectId,
 ref:Categorie}
 })
-module.exports=mongoose.model('SCategorie',scategorieSchema)
+module.exports=mongoose.model('scategorie',scategorieSchema)

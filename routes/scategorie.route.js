@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-import SCategorie from "../models/scategorie";
+import scategorie from "../models/scategorie";
 
 // afficher la liste des categories.
 router.get("/", async (req, res) => {
   try {
-    const scat = await SCategorie.find({}, null, { sort: { _id: -1 } })
+    const scat = await scategorie.find({}, null, { sort: { _id: -1 } })
       .populate("categorieID")
       .exec();
 
@@ -16,12 +16,12 @@ router.get("/", async (req, res) => {
 });
 // créer un nouvelle catégorie
 router.post("/", async (req, res) => {
-  const nouvscateg = new SCategorie(req.body);
+  const nouvscateg = new scategorie(req.body);
 
   try {
     await nouvscateg.save();
 
-    res.status(200).json(newSCategorie);
+    res.status(200).json(newscategorie);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
 // chercher une sous catégorie
 router.get("/:scategorieId", async (req, res) => {
   try {
-    const scat = await SCategorie.findById(req.params.scategorieId);
+    const scat = await scategorie.findById(req.params.scategorieId);
     res.status(200).json(scat);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -40,7 +40,7 @@ router.get("/:scategorieId", async (req, res) => {
 // modifier une catégorie
 router.put("/:scategorieId", async (req, res) => {
   try {
-    const scat= await SCategorie.findByIdAndUpdate(
+    const scat= await scategorie.findByIdAndUpdate(
       req.params.scategorieId,
       { $set: req.body },
       { new: true }
@@ -54,14 +54,14 @@ router.put("/:scategorieId", async (req, res) => {
 // Supprimer une catégori
 router.delete("/:scategorieId", async (req, res) => {
   const id = req.params.scategorieId;
-  await SCategorie.findByIdAndDelete(id);
+  await scategorie.findByIdAndDelete(id);
   res.json({ message: "sous categorie deleted successfully." });
 });
 
 // chercher une sous catégorie par cat
 router.get("/cat/:categorieID", async (req, res) => {
   try {
-    const scat = await SCategorie.find({
+    const scat = await scategorie.find({
       categorieID: req.params.categorieID,
     }).exec();
     res.status(200).json(scat);
