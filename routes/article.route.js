@@ -15,6 +15,23 @@ router.get("/", async (req, res) => {
         
 });
 
+// afficher la liste des categories. REDUX PAGE
+router.get("/productspage", async (req, res) => {
+  const {page,limit} =req.query;
+  //calculer le nombre d'elements a sauter
+  const offset=(page-1)*limit;
+  try {
+      const art = await Article.find()
+      .skip(offset)
+      .limit(limit)
+      
+      res.status(200).json(art);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+      
+});
+
 // créer un nouveau article
 router.post("/", async (req, res) => {
   const nouvarticle = new Article(req.body)
