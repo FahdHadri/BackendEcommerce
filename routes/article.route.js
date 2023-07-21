@@ -19,11 +19,11 @@ router.get("/", async (req, res) => {
 router.get("/productspage", async (req, res) => {
   const {page,pageSize} =req.query;
   //calculer le nombre d'elements a sauter
-  const offset=(page-1)*pageSize;
+  const offset=(page-1)*3;
   try {
       const art = await Article.find()
       .skip(offset)
-      .limit(pageSize)
+      .limit(3)
 
       res.status(200).json(art);
     } catch (error) {
