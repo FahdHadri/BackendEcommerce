@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const scategorie = require("../models/scategorie");
 
 // afficher la liste des categories.
 router.get("/", async (req, res) => {
   try {
-    const scat = await scategories.find({}, null, { sort: { _id: -1 } })
+    const scat = await scategorie.find({}, null, { sort: { _id: -1 } })
 
     res.status(200).json(scat);
   } catch (error) {
