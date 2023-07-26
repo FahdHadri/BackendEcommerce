@@ -66,7 +66,7 @@ router.put('/:articleId', async (req, res)=> {
    );
    const articles = await
 Article.findById(art._id).populate("scategorieID").exec();
-   res.status(200).json(art);
+   res.status(200).json(articles);
    } catch (error) {
    res.status(404).json({ message: error.message });
    }
