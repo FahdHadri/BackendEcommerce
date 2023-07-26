@@ -59,18 +59,18 @@ router.get("/:articleId", async (req, res) => {
 // modifier un article
 router.put('/:articleId', async (req, res)=> {
   try {
-   const art = await Article.findByIdAndUpdate(
-       req.params.articleId,
-       { $set: req.body },
-     { new: true }
-   );
-   const articles = await
-Article.findById(art._id).populate("scategorieID").exec();
-   res.status(200).json(articles);
-   } catch (error) {
-   res.status(404).json({ message: error.message });
-   }
-});
+  const art = await Article.findByIdAndUpdate(
+  req.params.articleId,
+  { $set: req.body },
+  { new: true }
+  );
+  const articles = await
+  Article.findById(art._id).populate("scategorieID").exec();
+  res.status(200).json(articles);
+  } catch (error) {
+  res.status(404).json({ message: error.message });
+  }
+  });
 // Supprimer un article
 router.delete('/:articleId', async (req, res)=> {
   const  id  = req.params.articleId;
